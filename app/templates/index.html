@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TaskTracker</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 50px auto; padding: 20px; }
+        input, button { padding: 10px; font-size: 16px; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 10px; border-bottom: 1px solid #ccc; display: flex; align-items: center; gap: 10px; }
+        .done { text-decoration: line-through; color: gray; flex-grow: 1; }
+        .not-done { flex-grow: 1; }
+        .btn-done { background: green; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>📋 TaskTracker</h1>
+    <form method="post" action="/add">
+        <input type="text" name="title" placeholder="Новая задача..." required>
+        <button type="submit">➕ Добавить</button>
+    </form>
+    <h2>Активные задачи</h2>
+    <ul>
+        {% for task in tasks if not task[2] %}
+        <li>
+            <span class="not-done">{{ task[1] }}</span>
+            <form method="post" action="/done/{{ task[0] }}" style="margin:0;">
+                <button type="submit" class="btn-done">✅ Выполнено</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    <h2>Выполненные задачи</h2>
+    <ul>
+        {% for task in tasks if task[2] %}
+        <li>
+            <span class="done">{{ task[1] }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
